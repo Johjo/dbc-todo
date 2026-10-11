@@ -58,16 +58,16 @@ class OpenTask:
         self._history = history
 
     def execute(self, task_or_tag: Task) -> Result[TaskOpened, TaskAlreadyOpened]:
-        task =task_or_tag 
+        task =task_or_tag
         match task_or_tag:
             case Task(tag=tag):
                 tag = tag
 
         for event in self._history.events:
-            if tag in event.tags:
-                return Error(TaskAlreadyOpened(tag))
+            if task.tag in event.tags:
+                return Error(TaskAlreadyOpened(task.tag))
 
-        return Ok(TaskOpened(tags=(tag,), tag=tag))
+        return Ok(TaskOpened(tags=(task.tag,), tag=task.tag))
 
 
 def a_task(title: str, description: str, uuid: UUID) -> Task:
