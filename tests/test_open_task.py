@@ -42,8 +42,9 @@ class OpenTask:
         self._history = history
 
     def execute(self, tag: TaskTag) -> Result[TaskOpened, TaskAlreadyOpened]:
-        if self._history.events:
-            return Error(TaskAlreadyOpened(tag))
+        if len(self._history.events) > 0:
+            if tag in self._history.events[0].tags:
+                return Error(TaskAlreadyOpened(tag))
         return Ok(TaskOpened(tags=(tag,)))
 
 
@@ -72,4 +73,4 @@ class TestOpenTask:
 
         actual = OpenTask(history=history).execute(new_task)
 
-        # assert actual == Error(TaskAlreadyOpened(tag))
+        assert actual == Ok(TaskOpened.build(new_task))
