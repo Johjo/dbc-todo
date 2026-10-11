@@ -59,7 +59,7 @@ class OpenTask:
 
         for event in self._history.events:
             if tag in event.tags:
-                return Error(TaskAlreadyOpened(task_or_tag))
+                return Error(TaskAlreadyOpened(tag))
 
         return Ok(TaskOpened(tags=(task_or_tag,)))
 
