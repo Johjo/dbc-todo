@@ -38,6 +38,8 @@ class Task:
     title: TaskTitle
     description: TaskDescription
 
+    def as_opened(self) -> TaskOpened:
+        return TaskOpened((self.tag,), self.tag, self.title, self.description)
 
 @dataclass(frozen=True)
 class TaskAlreadyOpened:
