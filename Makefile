@@ -1,7 +1,7 @@
 check: type_check test_check# run all check
 
 type_check: # run all type check
-	uv run ty check
+	uv run ty check --output-format concise
 
 test_check: # run all test check
 	uv run pytest
