@@ -66,7 +66,7 @@ class OpenTask:
             if task.tag in event.tags:
                 return Error(TaskAlreadyOpened(task.tag))
 
-        return Ok(TaskOpened(tags=(task.tag,), tag=task.tag))
+        return Ok(task.as_opened())
 
 
 def a_task(title: str, description: str, uuid: UUID) -> Task:
