@@ -67,6 +67,20 @@ def a_task(title: str, description: str, uuid: UUID) -> Task:
     return Task(tag=(TaskTag(uuid=uuid)), title=TaskTitle(title), description=TaskDescription(description))
 
 
+task_tags = st.builds(TaskTag, uuid=st.uuids())
+
+task_titles = st.text(min_size=1, max_size=50).map(TaskTitle)
+
+task_descriptions = st.text(max_size=500).map(TaskDescription)
+
+tasks = st.builds(
+    Task,
+    tag=task_tags,
+    title=task_titles,
+    description=task_descriptions,
+)
+
+
 class TestOpenTask:
     @given(st.uuids(), st.text(min_size=1), st.text(min_size=1))
     def test_open_task(self, uuid: UUID, title: str, description: str):
