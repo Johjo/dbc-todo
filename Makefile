@@ -5,6 +5,10 @@ type_check: type_check-ty # run all type check
 type_check-ty:
 	uv run ty check --output-format concise
 
+type_check-mypy:
+	uv run mypy . strict --enable-error-code exhaustive-match
+
+
 test_check: # run all test check
 	uv run pytest
 
