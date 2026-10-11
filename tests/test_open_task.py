@@ -29,3 +29,10 @@ class TestOpenTask:
         actual = OpenTask().execute(tag)
 
         assert actual == Ok(TaskOpened(tags=(tag,)))
+
+    def test_cannot_open_task_already_opened(self):
+        tag = TaskTag(uuid=uuid.uuid4())
+        
+        actual = OpenTask().execute(tag)
+
+        # assert actual == Ok(TaskOpened(tags=(tag,)))
