@@ -115,4 +115,4 @@ class TestOpenTask:
 
         actual = OpenTask(history=history).execute(task)
 
-        assert actual == Ok(TaskOpened.build(task.tag))
+        assert actual == Ok(TaskOpened((task.tag, )))
