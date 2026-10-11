@@ -1,15 +1,18 @@
-check: type_check test_check# run all check
+check: check-type check-lint check-test # run all check
 
-type_check: type_check-ty # run all type check
+check-type: check-type-ty check-type-mypy # run all type check
 
-type_check-ty:
+check-type-ty:
 	uv run ty check --output-format concise
 
-type_check-mypy:
-	uv run mypy . strict --enable-error-code exhaustive-match
+check-type-mypy:
+	uv run mypy .
+
+check-lint:
+	uv run ruff check .
 
 
-test_check: # run all test check
+check-test: # run all test check
 	uv run pytest
 
 green: # run green git gamble command
