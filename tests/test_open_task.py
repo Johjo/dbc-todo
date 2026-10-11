@@ -70,6 +70,6 @@ class TestOpenTask:
         new_task = TaskTag(uuid=uuid.UUID(int=2))
         history = History.build(TaskOpened.build(existing_tag))
 
-        # actual = OpenTask(history=history).execute(tag)
+        actual = OpenTask(history=history).execute(new_task)
 
         # assert actual == Error(TaskAlreadyOpened(tag))
