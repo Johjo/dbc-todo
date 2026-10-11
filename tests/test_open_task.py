@@ -69,7 +69,7 @@ class OpenTask:
         return Ok(task.as_opened())
 
 
-def a_task(title: str, description: str, uuid: UUID) -> Task:
+def a_task(title: str = ".", description: str = ".", uuid: UUID = UUID(int=999)) -> Task:
     return Task(tag=(TaskTag(uuid=uuid)), title=TaskTitle(title), description=TaskDescription(description))
 
 
@@ -91,9 +91,8 @@ class TestOpenTask:
     @given(st.integers(min_value=0, max_value=50), any_task)
     def test_cannot_open_task_already_opened(self, history_size: int, task: Task):
         task = replace(task, tag=(TaskTag(uuid=UUID(int=history_size))))
-        other_events = (a_task(".", ".", uuid=UUID(int=i)).as_opened() for i in range(history_size))
-        the_event = TaskOpened.build(task.tag)
-        history = History.build(*other_events, the_event)
+        other_events = (a_task(uuid=UUID(int=i)).as_opened() for i in range(history_size))
+        history = History.build(*other_events, task.as_opened())
 
         actual = OpenTask(history=history).execute(task)
 
