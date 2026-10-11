@@ -67,6 +67,7 @@ class TestOpenTask:
 
     def test_can_open_task_even_if_others_tasks_are_opened(self):
         existing_tag = TaskTag(uuid=uuid.UUID(int=1))
+        new_task = TaskTag(uuid=uuid.UUID(int=2))
         history = History.build(TaskOpened.build(existing_tag))
 
         # actual = OpenTask(history=history).execute(tag)
