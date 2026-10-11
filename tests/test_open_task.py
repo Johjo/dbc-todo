@@ -100,12 +100,11 @@ class TestOpenTask:
         assert actual == Error(TaskAlreadyOpened(tag))
 
 
-    @given(st.integers(min_value=0, max_value=50))
-    def test_can_open_task_even_if_others_tasks_are_opened(self, history_size: int):
-        new_task = TaskTag(uuid=UUID(int=history_size))
+    @given(st.integers(min_value=0, max_value=50), any_task)
+    def test_can_open_task_even_if_others_tasks_are_opened(self, history_size: int, task: Task):
         other_events = (TaskOpened.build(TaskTag(uuid=UUID(int=i))) for i in range(history_size))
         history = History.build(*other_events)
 
-        actual = OpenTask(history=history).execute(new_task)
+        actual = OpenTask(history=history).execute(task)
 
-        assert actual == Ok(TaskOpened.build(new_task))
+        assert actual == Ok(TaskOpened.build(task.tag))
