@@ -78,10 +78,9 @@ def a_task(title: str = ".", description: str = ".", uuid: UuidOrInt = 999) -> T
 def to_uuid(uuid: UUID | int) -> UUID:
     match uuid:
         case UUID():
-            u = uuid
+            return uuid
         case int():
-            u = UUID(int=uuid)
-    return u
+            return UUID(int=uuid)
 
 
 task_tags = st.builds(TaskTag, uuid=st.uuids())
