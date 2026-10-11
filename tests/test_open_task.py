@@ -1,5 +1,5 @@
 from uuid import UUID, uuid4
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 import hypothesis.strategies as st
 from expression import Ok, Result, Error
@@ -93,6 +93,7 @@ class TestOpenTask:
     @given(st.integers(min_value=0, max_value=50), any_task)
     def test_cannot_open_task_already_opened(self, history_size: int, task: Task):
         tag = TaskTag(uuid=UUID(int=history_size))
+        task = replace(task, tag=tag)
         other_events = (TaskOpened.build(TaskTag(uuid=UUID(int=i))) for i in range(history_size))
         the_event = TaskOpened.build(tag)
         history = History.build(*other_events, the_event)
