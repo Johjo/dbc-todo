@@ -73,7 +73,7 @@ class TestOpenTask:
         task = a_task(title, description, uuid)
         actual = OpenTask(history=History.empty()).execute(task)
 
-        assert actual == Ok(TaskOpened(tags=(task.tag,)))
+        assert actual == Ok(TaskOpened.build(task.tag))
 
     @given(st.integers(min_value=0, max_value=50))
     def test_cannot_open_task_already_opened(self, history_size: int):
