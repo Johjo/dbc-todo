@@ -35,7 +35,7 @@ class TaskOpened:
 
     @classmethod
     def build(cls, tag: TaskTag) -> "TaskOpened":
-        return cls(tags=(tag,))
+        return cls(tags=(tag,), tag=tag)
 
 @dataclass(frozen=True)
 class TaskAlreadyOpened:
@@ -68,7 +68,7 @@ class OpenTask:
             if tag in event.tags:
                 return Error(TaskAlreadyOpened(tag))
 
-        return Ok(TaskOpened(tags=(tag,)))
+        return Ok(TaskOpened(tags=(tag,), tag=tag))
 
 
 def a_task(title: str, description: str, uuid: UUID) -> Task:
@@ -115,4 +115,4 @@ class TestOpenTask:
 
         actual = OpenTask(history=history).execute(task)
 
-        assert actual == Ok(TaskOpened((task.tag, )))
+        assert actual == Ok(TaskOpened(tags=(task.tag, ), tag=task.tag))
