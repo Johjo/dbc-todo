@@ -4,34 +4,8 @@ from uuid import UUID
 import hypothesis.strategies as st
 from expression import Ok, Error
 from hypothesis import given
-from open_task import TaskTag, TaskDescription, TaskTitle, TaskOpened, Task, TaskAlreadyOpened, History, OpenTask
-from tests.fixtures import UuidOrInt
-
-
-def a_task(title: str = ".", description: str = ".", uuid: UuidOrInt = 999) -> Task:
-    return Task(tag=(TaskTag(uuid=to_uuid(uuid))), title=TaskTitle(title), description=TaskDescription(description))
-
-
-def to_uuid(uuid: UUID | int) -> UUID:
-    match uuid:
-        case UUID():
-            return uuid
-        case int():
-            return UUID(int=uuid)
-
-
-task_tags = st.builds(TaskTag, uuid=st.uuids())
-
-task_titles = st.text(min_size=1, max_size=50).map(lambda s: TaskTitle(s))
-
-task_descriptions = st.text(max_size=500).map(lambda s: TaskDescription(s))
-
-any_task = st.builds(
-    Task,
-    tag=task_tags,
-    title=task_titles,
-    description=task_descriptions,
-)
+from open_task import TaskTag, TaskOpened, Task, TaskAlreadyOpened, History, OpenTask
+from tests.fixtures import a_task, any_task
 
 
 class TestOpenTask:
