@@ -1,7 +1,8 @@
 class OpenTask:
-    pass
+    def execute(self):
+        pass
 
 
 class TestOpenTask:
-    def test_xxxt(self):
-        OpenTask()
+    def test_open_task(self):
+        OpenTask().execute()
