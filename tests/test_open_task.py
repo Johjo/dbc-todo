@@ -1,9 +1,10 @@
+import uuid
 from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
 class TaskKey:
-    pass
+    uuid: uuid.UUID
 
 
 @dataclass(frozen=True)
@@ -20,8 +21,7 @@ class OpenTask:
 
 class TestOpenTask:
     def test_open_task(self):
-
-        key = TaskKey()
+        key = TaskKey(uuid=uuid.uuid4())
         actual = OpenTask().execute(key)
 
         assert actual == TaskOpened()
