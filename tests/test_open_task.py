@@ -70,7 +70,7 @@ class TestOpenTask:
     def test_open_task(self, uuid: UUID, title: str, description: str):
         tag = TaskTag(uuid=uuid)
         task = Task(tag=tag, title=TaskTitle(title), description=TaskDescription(description))
-        actual = OpenTask(history=History.empty()).execute(tag)
+        actual = OpenTask(history=History.empty()).execute(task)
 
         assert actual == Ok(TaskOpened(tags=(tag,)))
 
