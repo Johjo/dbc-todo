@@ -8,7 +8,7 @@ class TaskKey:
 
 class OpenTask:
     def execute(self, key: TaskKey):
-        pass
+        return TaskOpened()
 
 
 @dataclass(frozen=True)
@@ -22,4 +22,4 @@ class TestOpenTask:
         key = TaskKey()
         actual = OpenTask().execute(key)
 
-        TaskOpened()
+        assert actual == TaskOpened()
