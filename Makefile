@@ -1,6 +1,8 @@
 check: type_check test_check# run all check
 
-type_check: # run all type check
+type_check: type_check-ty # run all type check
+
+type_check-ty:
 	uv run ty check --output-format concise
 
 test_check: # run all test check
