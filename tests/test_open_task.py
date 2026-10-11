@@ -1,7 +1,9 @@
 import uuid
 from dataclasses import dataclass
 
+import hypothesis.strategies as st
 from expression import Ok, Result, Error
+from hypothesis import given
 
 
 @dataclass(frozen=True)
@@ -23,8 +25,6 @@ class TaskOpened:
 class TaskAlreadyOpened:
     tag: TaskTag
 
-
-
 @dataclass(frozen=True)
 class History:
     events: tuple[TaskOpened, ...]
@@ -42,9 +42,10 @@ class OpenTask:
         self._history = history
 
     def execute(self, tag: TaskTag) -> Result[TaskOpened, TaskAlreadyOpened]:
-        if len(self._history.events) > 0:
-            if tag in self._history.events[0].tags:
+        for event in self._history.events:
+            if tag in event.tags:
                 return Error(TaskAlreadyOpened(tag))
+
         return Ok(TaskOpened(tags=(tag,)))
 
 
@@ -57,19 +58,23 @@ class TestOpenTask:
 
         assert actual == Ok(TaskOpened(tags=(tag,)))
 
-    def test_cannot_open_task_already_opened(self):
-        tag = TaskTag(uuid=uuid.uuid4())
-        history = History.build(TaskOpened.build(tag))
+    @given(st.integers(min_value=0, max_value=50))
+    def test_cannot_open_task_already_opened(self, history_size: int):
+        tag = TaskTag(uuid=uuid.UUID(int=history_size))
+        other_events = (TaskOpened.build(TaskTag(uuid=uuid.UUID(int=i))) for i in range(history_size))
+        the_event = TaskOpened.build(tag)
+        history = History.build(*other_events, the_event)
 
         actual = OpenTask(history=history).execute(tag)
 
         assert actual == Error(TaskAlreadyOpened(tag))
 
 
-    def test_can_open_task_even_if_others_tasks_are_opened(self):
-        existing_tag = TaskTag(uuid=uuid.UUID(int=1))
-        new_task = TaskTag(uuid=uuid.UUID(int=2))
-        history = History.build(TaskOpened.build(existing_tag))
+    @given(st.integers(min_value=0, max_value=50))
+    def test_can_open_task_even_if_others_tasks_are_opened(self, history_size: int):
+        new_task = TaskTag(uuid=uuid.UUID(int=history_size))
+        other_events = (TaskOpened.build(TaskTag(uuid=uuid.UUID(int=i))) for i in range(history_size))
+        history = History.build(*other_events)
 
         actual = OpenTask(history=history).execute(new_task)
 
