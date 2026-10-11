@@ -27,7 +27,7 @@ class History:
         return cls(events=tuple(events))
 
 class OpenTask:
-    def __init__(self, history: tuple[TaskOpened, ...]):
+    def __init__(self, history: History):
         self._history = history
 
     def execute(self, tag: TaskTag) -> Result[TaskOpened, None]:
@@ -39,14 +39,15 @@ class OpenTask:
 class TestOpenTask:
     def test_open_task(self):
         tag = TaskTag(uuid=uuid.uuid4())
-        actual = OpenTask(history=()).execute(tag)
+        actual = OpenTask(history=History.build()).execute(tag)
 
         assert actual == Ok(TaskOpened(tags=(tag,)))
 
     def test_cannot_open_task_already_opened(self):
         tag = TaskTag(uuid=uuid.uuid4())
-        history = (TaskOpened.build(tag), )
-        History.build(TaskOpened.build(tag))
+        history = History.build(TaskOpened.build(tag))
+
+
         actual = OpenTask(history=history).execute(tag)
 
         # assert actual == Ok(TaskOpened(tags=(tag,)))
