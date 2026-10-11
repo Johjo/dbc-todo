@@ -13,7 +13,7 @@ check-lint:
 
 
 check-test: # run all test check
-	uv run pytest
+	uv run pytest -v
 
 green: # run green git gamble command
 	git-gamble --green -m "green" -- make check
