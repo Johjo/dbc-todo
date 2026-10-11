@@ -39,7 +39,7 @@ class Task:
     description: TaskDescription
 
     def as_opened(self) -> TaskOpened:
-        return TaskOpened((self.tag,), self.tag, self.title, self.description)
+        return TaskOpened((self.tag,), self.tag)
 
 @dataclass(frozen=True)
 class TaskAlreadyOpened:
