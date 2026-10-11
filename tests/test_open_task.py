@@ -14,4 +14,5 @@ class OpenTask:
 class TestOpenTask:
     def test_open_task(self):
 
-        OpenTask().execute(TaskKey())
+        key = TaskKey()
+        OpenTask().execute(key)
