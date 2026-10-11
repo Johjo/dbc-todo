@@ -44,7 +44,7 @@ class OpenTask:
 class TestOpenTask:
     def test_open_task(self):
         tag = TaskTag(uuid=uuid.uuid4())
-        actual = OpenTask(history=History.build()).execute(tag)
+        actual = OpenTask(history=History.empty()).execute(tag)
 
         assert actual == Ok(TaskOpened(tags=(tag,)))
 
