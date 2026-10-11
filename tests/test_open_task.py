@@ -67,8 +67,8 @@ class OpenTask:
 
 
 class TestOpenTask:
-    @given(st.text(min_size=1), st.text(min_size=1))
-    def test_open_task(self, title: str, description: str):
+    @given(st.uuids(), st.text(min_size=1), st.text(min_size=1))
+    def test_open_task(self, id: uuid.UUID, title: str, description: str):
         tag = TaskTag(uuid=uuid.uuid4())
         actual = OpenTask(history=History.empty()).execute(tag)
 
