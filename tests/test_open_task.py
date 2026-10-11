@@ -92,15 +92,14 @@ any_task = st.builds(
 class TestOpenTask:
     @given(st.integers(min_value=0, max_value=50), any_task)
     def test_cannot_open_task_already_opened(self, history_size: int, task: Task):
-        tag = TaskTag(uuid=UUID(int=history_size))
-        task = replace(task, tag=tag)
+        task = replace(task, tag=(TaskTag(uuid=UUID(int=history_size))))
         other_events = (TaskOpened.build(TaskTag(uuid=UUID(int=i))) for i in range(history_size))
-        the_event = TaskOpened.build(tag)
+        the_event = TaskOpened.build(task.tag)
         history = History.build(*other_events, the_event)
 
         actual = OpenTask(history=history).execute(task)
 
-        assert actual == Error(TaskAlreadyOpened(tag))
+        assert actual == Error(TaskAlreadyOpened(TaskTag(uuid=UUID(int=history_size))))
 
 
     @given(st.integers(min_value=0, max_value=50), any_task)
