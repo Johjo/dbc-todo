@@ -15,8 +15,15 @@ class TaskTag:
 class TaskOpened:
     tags: tuple[TaskTag, ...]
 
+    @classmethod
+    def build(cls, *tags: TaskTag) -> "TaskOpened":
+        return cls(tags=tuple(tags))
+
 
 class OpenTask:
+    def __init__(self, history: tuple[TaskOpened, ...]):
+        self._history = history
+
     def execute(self, tag: TaskTag) -> Result[TaskOpened, None]:
         return Ok(TaskOpened(tags=(tag,)))
 
@@ -26,13 +33,13 @@ class OpenTask:
 class TestOpenTask:
     def test_open_task(self):
         tag = TaskTag(uuid=uuid.uuid4())
-        actual = OpenTask().execute(tag)
+        actual = OpenTask(history=()).execute(tag)
 
         assert actual == Ok(TaskOpened(tags=(tag,)))
 
     def test_cannot_open_task_already_opened(self):
         tag = TaskTag(uuid=uuid.uuid4())
-        history = [TaskOpened(tags=(tag,))]
-        actual = OpenTask().execute(tag)
+        history = (TaskOpened(tags=(tag,)), )
+        actual = OpenTask(history=history).execute(tag)
 
         # assert actual == Ok(TaskOpened(tags=(tag,)))
