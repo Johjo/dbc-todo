@@ -5,8 +5,8 @@ import hypothesis.strategies as st
 from expression import Ok, Error
 from hypothesis import given
 from open_task import TaskTag, TaskDescription, TaskTitle, TaskOpened, Task, TaskAlreadyOpened, History, OpenTask
+from tests.fixtures import UuidOrInt
 
-UuidOrInt = UUID | int
 
 def a_task(title: str = ".", description: str = ".", uuid: UuidOrInt = 999) -> Task:
     return Task(tag=(TaskTag(uuid=to_uuid(uuid))), title=TaskTitle(title), description=TaskDescription(description))
