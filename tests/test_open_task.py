@@ -10,8 +10,13 @@ from typing import NewType
 class TaskTag:
     uuid: UUID
 
-TaskTitle = NewType("TaskTitle", str)
-TaskDescription = NewType("TaskDescription", str)
+@dataclass(frozen=True)
+class TaskDescription:
+    value: str
+
+@dataclass(frozen=True)
+class TaskTitle:
+    value: str
 
 @dataclass(frozen=True)
 class Task:
