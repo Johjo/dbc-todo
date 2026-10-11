@@ -25,7 +25,7 @@ class TaskTitle:
 class TaskOpened:
     tags: tuple[TaskTag, ...]
     tag: TaskTag
-    title: TaskTitle  | None = None
+    title: TaskTitle
     description: TaskDescription | None = None
 
 @dataclass(frozen=True)
