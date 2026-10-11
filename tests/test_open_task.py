@@ -12,11 +12,13 @@ class TaskTag:
     uuid: uuid.UUID
 
 TaskTitle = NewType("TaskTitle", str)
+TaskDescription = NewType("TaskDescription", str)
 
 @dataclass(frozen=True)
 class Task:
     tag: TaskTag
     title: TaskTitle
+    description: TaskDescription
 
 
 
