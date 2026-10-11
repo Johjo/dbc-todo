@@ -90,8 +90,8 @@ any_task = st.builds(
 
 
 class TestOpenTask:
-    @given(st.integers(min_value=0, max_value=50))
-    def test_cannot_open_task_already_opened(self, history_size: int):
+    @given(st.integers(min_value=0, max_value=50), any_task)
+    def test_cannot_open_task_already_opened(self, history_size: int, task: Task):
         tag = TaskTag(uuid=UUID(int=history_size))
         other_events = (TaskOpened.build(TaskTag(uuid=UUID(int=i))) for i in range(history_size))
         the_event = TaskOpened.build(tag)
