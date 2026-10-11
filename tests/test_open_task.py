@@ -81,9 +81,9 @@ def to_uuid(uuid: UUID | int) -> UUID:
 
 task_tags = st.builds(TaskTag, uuid=st.uuids())
 
-task_titles = st.text(min_size=1, max_size=50).map(TaskTitle)
+task_titles = st.text(min_size=1, max_size=50).map(lambda s: TaskTitle(s))
 
-task_descriptions = st.text(max_size=500).map(TaskDescription)
+task_descriptions = st.text(max_size=500).map(lambda s: TaskDescription(s))
 
 any_task = st.builds(
     Task,
