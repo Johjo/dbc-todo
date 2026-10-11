@@ -33,7 +33,6 @@ class TaskOpened:
     title: TaskTitle  | None = None
     description: TaskDescription | None = None
 
-
     @classmethod
     def build(cls, *tags: TaskTag) -> "TaskOpened":
         return cls(tags=tuple(tags))
