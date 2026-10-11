@@ -9,12 +9,12 @@ class TaskKey:
 
 @dataclass(frozen=True)
 class TaskOpened:
-    pass
+    tag: tuple[TaskKey, ...]
 
 
 class OpenTask:
     def execute(self, key: TaskKey) -> TaskOpened:
-        return TaskOpened()
+        return TaskOpened(())
 
 
 
@@ -24,4 +24,4 @@ class TestOpenTask:
         key = TaskKey(uuid=uuid.uuid4())
         actual = OpenTask().execute(key)
 
-        assert actual == TaskOpened()
+        assert actual == TaskOpened(tag=())
