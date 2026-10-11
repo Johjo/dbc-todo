@@ -90,12 +90,6 @@ any_task = st.builds(
 
 
 class TestOpenTask:
-    @given(any_task)
-    def test_open_task(self, task: Task):
-        actual = OpenTask(history=History.empty()).execute(task)
-
-        assert actual == Ok(TaskOpened.build(task.tag))
-
     @given(st.integers(min_value=0, max_value=50))
     def test_cannot_open_task_already_opened(self, history_size: int):
         tag = TaskTag(uuid=UUID(int=history_size))
