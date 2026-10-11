@@ -35,7 +35,7 @@ class Task:
     description: TaskDescription
 
     def as_opened(self) -> TaskOpened:
-        return TaskOpened((self.tag,), self.tag, self.title)
+        return TaskOpened((self.tag,), self.tag, self.title, self.description)
 
 @dataclass(frozen=True)
 class TaskAlreadyOpened:
@@ -112,4 +112,4 @@ class TestOpenTask:
 
         actual = OpenTask(history=history).execute(task)
 
-        assert actual == Ok(TaskOpened(tags=(task.tag, ), tag=task.tag, title=task.title))
+        assert actual == Ok(TaskOpened(tags=(task.tag, ), tag=task.tag, title=task.title, description=task.description))
