@@ -84,7 +84,6 @@ any_task = st.builds(
 class TestOpenTask:
     @given(st.uuids(), st.text(min_size=1), st.text(min_size=1), any_task)
     def test_open_task(self, uuid: UUID, title: str, description: str, task: Task):
-        task = a_task(title, description, uuid)
         actual = OpenTask(history=History.empty()).execute(task)
 
         assert actual == Ok(TaskOpened.build(task.tag))
