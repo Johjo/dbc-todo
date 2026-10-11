@@ -98,7 +98,7 @@ class TestOpenTask:
         the_event = TaskOpened.build(tag)
         history = History.build(*other_events, the_event)
 
-        actual = OpenTask(history=history).execute(tag)
+        actual = OpenTask(history=history).execute(task)
 
         assert actual == Error(TaskAlreadyOpened(tag))
 
