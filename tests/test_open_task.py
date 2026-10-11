@@ -61,7 +61,7 @@ class OpenTask:
             if tag in event.tags:
                 return Error(TaskAlreadyOpened(tag))
 
-        return Ok(TaskOpened(tags=(task_or_tag,)))
+        return Ok(TaskOpened(tags=(tag,)))
 
 
 
