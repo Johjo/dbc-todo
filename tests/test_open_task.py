@@ -57,7 +57,7 @@ class OpenTask:
     def __init__(self, history: History):
         self._history = history
 
-    def execute(self, task_or_tag: TaskTag | Task) -> Result[TaskOpened, TaskAlreadyOpened]:
+    def execute(self, task_or_tag: Task) -> Result[TaskOpened, TaskAlreadyOpened]:
         match task_or_tag:
             case TaskTag() as tag:
                 tag = tag
