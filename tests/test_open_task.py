@@ -69,14 +69,19 @@ class OpenTask:
         return Ok(task.as_opened())
 
 
-def a_task(title: str = ".", description: str = ".", uuid: int | UUID = 999) -> Task:
+UuidOrInt = UUID | int
+
+def a_task(title: str = ".", description: str = ".", uuid: UuidOrInt = 999) -> Task:
+    return Task(tag=(TaskTag(uuid=to_uuid(uuid))), title=TaskTitle(title), description=TaskDescription(description))
+
+
+def to_uuid(uuid: UUID | int) -> UUID:
     match uuid:
         case UUID():
             u = uuid
         case int():
             u = UUID(int=uuid)
-
-    return Task(tag=(TaskTag(uuid=u)), title=TaskTitle(title), description=TaskDescription(description))
+    return u
 
 
 task_tags = st.builds(TaskTag, uuid=st.uuids())
