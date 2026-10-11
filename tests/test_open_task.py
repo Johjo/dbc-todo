@@ -7,14 +7,16 @@ class TaskTag:
     uuid: uuid.UUID
 
 
+
+
 @dataclass(frozen=True)
 class TaskOpened:
     tags: tuple[TaskTag, ...]
 
 
 class OpenTask:
-    def execute(self, key: TaskTag) -> TaskOpened:
-        return TaskOpened((key, ))
+    def execute(self, tag: TaskTag) -> TaskOpened:
+        return TaskOpened(tags=(tag,))
 
 
 
