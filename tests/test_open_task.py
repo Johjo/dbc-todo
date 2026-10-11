@@ -46,6 +46,7 @@ class TestOpenTask:
     def test_cannot_open_task_already_opened(self):
         tag = TaskTag(uuid=uuid.uuid4())
         history = (TaskOpened.build(tag), )
+        History.build(TaskOpened.build(tag))
         actual = OpenTask(history=history).execute(tag)
 
         # assert actual == Ok(TaskOpened(tags=(tag,)))
