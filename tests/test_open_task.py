@@ -4,12 +4,19 @@ from dataclasses import dataclass
 import hypothesis.strategies as st
 from expression import Ok, Result, Error
 from hypothesis import given
+from typing_extensions import NewType
 
 
 @dataclass(frozen=True)
 class TaskTag:
     uuid: uuid.UUID
 
+TaskTitle = NewType("TaskTitle", str)
+
+@dataclass(frozen=True)
+class Task:
+    tag: TaskTag
+    title: TaskTitle
 
 
 
