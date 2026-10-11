@@ -18,11 +18,6 @@ class TaskDescription:
 class TaskTitle:
     value: str
 
-@dataclass(frozen=True)
-class Task:
-    tag: TaskTag
-    title: TaskTitle
-    description: TaskDescription
 
 
 
@@ -36,6 +31,13 @@ class TaskOpened:
     @classmethod
     def build(cls, tag: TaskTag) -> "TaskOpened":
         return cls(tags=(tag,), tag=tag)
+
+@dataclass(frozen=True)
+class Task:
+    tag: TaskTag
+    title: TaskTitle
+    description: TaskDescription
+
 
 @dataclass(frozen=True)
 class TaskAlreadyOpened:
