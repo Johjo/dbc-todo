@@ -15,4 +15,4 @@ class TestOpenTask:
     def test_open_task(self):
 
         key = TaskKey()
-        OpenTask().execute(key)
+        actual = OpenTask().execute(key)
