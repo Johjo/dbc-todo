@@ -3,17 +3,17 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
-class TaskKey:
+class TaskTag:
     uuid: uuid.UUID
 
 
 @dataclass(frozen=True)
 class TaskOpened:
-    tag: tuple[TaskKey, ...]
+    tags: tuple[TaskTag, ...]
 
 
 class OpenTask:
-    def execute(self, key: TaskKey) -> TaskOpened:
+    def execute(self, key: TaskTag) -> TaskOpened:
         return TaskOpened((key, ))
 
 
@@ -21,7 +21,7 @@ class OpenTask:
 
 class TestOpenTask:
     def test_open_task(self):
-        key = TaskKey(uuid=uuid.uuid4())
-        actual = OpenTask().execute(key)
+        tag = TaskTag(uuid=uuid.uuid4())
+        actual = OpenTask().execute(tag)
 
-        assert actual == TaskOpened(tag=(key, ))
+        assert actual == TaskOpened(tags=(tag,))
