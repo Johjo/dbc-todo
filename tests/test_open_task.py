@@ -14,7 +14,7 @@ class TaskOpened:
 
 class OpenTask:
     def execute(self, key: TaskKey) -> TaskOpened:
-        return TaskOpened(())
+        return TaskOpened((key, ))
 
 
 
@@ -24,4 +24,4 @@ class TestOpenTask:
         key = TaskKey(uuid=uuid.uuid4())
         actual = OpenTask().execute(key)
 
-        assert actual == TaskOpened(tag=())
+        assert actual == TaskOpened(tag=(key, ))
