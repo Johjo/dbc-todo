@@ -7,7 +7,7 @@ test_check: # run all test check
 	uv run pytest
 
 green: # run green git gamble command
-	git green -m "green" -- make check
+	git-gamble --green -m "green" -- make check
 
 red: # run red git gamble command 
-	git red -m "red" -- make check
+	git-gamble --red -m "red" -- make check
