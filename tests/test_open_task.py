@@ -63,16 +63,17 @@ class OpenTask:
         return Ok(TaskOpened(tags=(tag,)))
 
 
+def a_task(title: str, description: str, uuid: UUID) -> Task:
+    return Task(tag=(TaskTag(uuid=uuid)), title=TaskTitle(title), description=TaskDescription(description))
 
 
 class TestOpenTask:
     @given(st.uuids(), st.text(min_size=1), st.text(min_size=1))
     def test_open_task(self, uuid: UUID, title: str, description: str):
-        tag = TaskTag(uuid=uuid)
-        task = Task(tag=tag, title=TaskTitle(title), description=TaskDescription(description))
+        task = a_task(title, description, uuid)
         actual = OpenTask(history=History.empty()).execute(task)
 
-        assert actual == Ok(TaskOpened(tags=(tag,)))
+        assert actual == Ok(TaskOpened(tags=((TaskTag(uuid=uuid)),)))
 
     @given(st.integers(min_value=0, max_value=50))
     def test_cannot_open_task_already_opened(self, history_size: int):
