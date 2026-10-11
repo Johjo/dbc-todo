@@ -34,8 +34,8 @@ class TaskOpened:
     description: TaskDescription | None = None
 
     @classmethod
-    def build(cls, tags: TaskTag) -> "TaskOpened":
-        return cls(tags=(tags,))
+    def build(cls, tag: TaskTag) -> "TaskOpened":
+        return cls(tags=(tag,))
 
 @dataclass(frozen=True)
 class TaskAlreadyOpened:
