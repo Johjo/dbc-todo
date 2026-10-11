@@ -1,10 +1,10 @@
-from uuid import UUID, uuid4
 from dataclasses import dataclass, replace
+from uuid import UUID
 
 import hypothesis.strategies as st
 from expression import Ok, Result, Error
 from hypothesis import given
-from typing import NewType
+
 
 @dataclass(frozen=True)
 class TaskTag:
