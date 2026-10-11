@@ -29,7 +29,7 @@ class Task:
 @dataclass(frozen=True)
 class TaskOpened:
     tags: tuple[TaskTag, ...]
-    tag: TaskTag | None = None
+    tag: TaskTag
     title: TaskTitle  | None = None
     description: TaskDescription | None = None
 
