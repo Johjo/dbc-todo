@@ -59,8 +59,6 @@ class OpenTask:
 
     def execute(self, task_or_tag: Task) -> Result[TaskOpened, TaskAlreadyOpened]:
         match task_or_tag:
-            case TaskTag() as tag:
-                tag = tag
             case Task(tag=tag):
                 tag = tag
 
