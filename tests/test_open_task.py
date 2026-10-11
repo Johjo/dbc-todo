@@ -1,6 +1,8 @@
 import uuid
 from dataclasses import dataclass
 
+from expression import Ok, Result
+
 
 @dataclass(frozen=True)
 class TaskTag:
@@ -15,8 +17,8 @@ class TaskOpened:
 
 
 class OpenTask:
-    def execute(self, tag: TaskTag) -> TaskOpened:
-        return TaskOpened(tags=(tag,))
+    def execute(self, tag: TaskTag) -> Result[TaskOpened, None]:
+        return Ok(TaskOpened(tags=(tag,)))
 
 
 
@@ -26,4 +28,4 @@ class TestOpenTask:
         tag = TaskTag(uuid=uuid.uuid4())
         actual = OpenTask().execute(tag)
 
-        assert actual == TaskOpened(tags=(tag,))
+        assert actual == Ok(TaskOpened(tags=(tag,)))
