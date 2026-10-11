@@ -1,4 +1,4 @@
-import uuid
+from uuid import UUID, uuid4
 from dataclasses import dataclass
 
 import hypothesis.strategies as st
@@ -9,7 +9,7 @@ from typing_extensions import NewType
 
 @dataclass(frozen=True)
 class TaskTag:
-    uuid: uuid.UUID
+    uuid: UUID
 
 TaskTitle = NewType("TaskTitle", str)
 TaskDescription = NewType("TaskDescription", str)
@@ -68,16 +68,16 @@ class OpenTask:
 
 class TestOpenTask:
     @given(st.uuids(), st.text(min_size=1), st.text(min_size=1))
-    def test_open_task(self, id: uuid.UUID, title: str, description: str):
-        tag = TaskTag(uuid=uuid.uuid4())
+    def test_open_task(self, id: UUID, title: str, description: str):
+        tag = TaskTag(uuid=uuid4())
         actual = OpenTask(history=History.empty()).execute(tag)
 
         assert actual == Ok(TaskOpened(tags=(tag,)))
 
     @given(st.integers(min_value=0, max_value=50))
     def test_cannot_open_task_already_opened(self, history_size: int):
-        tag = TaskTag(uuid=uuid.UUID(int=history_size))
-        other_events = (TaskOpened.build(TaskTag(uuid=uuid.UUID(int=i))) for i in range(history_size))
+        tag = TaskTag(uuid=UUID(int=history_size))
+        other_events = (TaskOpened.build(TaskTag(uuid=UUID(int=i))) for i in range(history_size))
         the_event = TaskOpened.build(tag)
         history = History.build(*other_events, the_event)
 
@@ -88,8 +88,8 @@ class TestOpenTask:
 
     @given(st.integers(min_value=0, max_value=50))
     def test_can_open_task_even_if_others_tasks_are_opened(self, history_size: int):
-        new_task = TaskTag(uuid=uuid.UUID(int=history_size))
-        other_events = (TaskOpened.build(TaskTag(uuid=uuid.UUID(int=i))) for i in range(history_size))
+        new_task = TaskTag(uuid=UUID(int=history_size))
+        other_events = (TaskOpened.build(TaskTag(uuid=UUID(int=i))) for i in range(history_size))
         history = History.build(*other_events)
 
         actual = OpenTask(history=history).execute(new_task)
