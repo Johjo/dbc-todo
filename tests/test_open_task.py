@@ -111,7 +111,7 @@ class TestOpenTask:
 
     @given(st.integers(min_value=0, max_value=50), any_task)
     def test_can_open_task_even_if_others_tasks_are_opened(self, history_size: int, task: Task):
-        other_events = (TaskOpened.build(TaskTag(uuid=UUID(int=i))) for i in range(history_size))
+        other_events = (a_task(uuid=i).as_opened() for i in range(history_size))
         history = History.build(*other_events)
 
         actual = OpenTask(history=history).execute(task)
