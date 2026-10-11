@@ -29,6 +29,10 @@ class Task:
 @dataclass(frozen=True)
 class TaskOpened:
     tags: tuple[TaskTag, ...]
+    tag: TaskTag | None = None
+    title: TaskTitle  | None = None
+    description: TaskDescription | None = None
+
 
     @classmethod
     def build(cls, *tags: TaskTag) -> "TaskOpened":
