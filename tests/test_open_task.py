@@ -1,7 +1,7 @@
 import uuid
 from dataclasses import dataclass
 
-from expression import Ok, Result
+from expression import Ok, Result, Error
 
 
 @dataclass(frozen=True)
@@ -20,6 +20,12 @@ class TaskOpened:
         return cls(tags=tuple(tags))
 
 @dataclass(frozen=True)
+class TaskAlreadyOpened:
+    tag: TaskTag
+
+
+
+@dataclass(frozen=True)
 class History:
     events: tuple[TaskOpened, ...]
 
@@ -35,7 +41,9 @@ class OpenTask:
     def __init__(self, history: History):
         self._history = history
 
-    def execute(self, tag: TaskTag) -> Result[TaskOpened, None]:
+    def execute(self, tag: TaskTag) -> Result[TaskOpened, TaskAlreadyOpened]:
+        if self._history.events:
+            return Error(TaskAlreadyOpened(tag))
         return Ok(TaskOpened(tags=(tag,)))
 
 
@@ -52,7 +60,6 @@ class TestOpenTask:
         tag = TaskTag(uuid=uuid.uuid4())
         history = History.build(TaskOpened.build(tag))
 
-
         actual = OpenTask(history=history).execute(tag)
 
-        # assert actual == Ok(TaskOpened(tags=(tag,)))
+        assert actual == Error(TaskAlreadyOpened(tag))
