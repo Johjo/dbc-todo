@@ -73,7 +73,7 @@ task_titles = st.text(min_size=1, max_size=50).map(TaskTitle)
 
 task_descriptions = st.text(max_size=500).map(TaskDescription)
 
-tasks = st.builds(
+any_task = st.builds(
     Task,
     tag=task_tags,
     title=task_titles,
@@ -82,8 +82,8 @@ tasks = st.builds(
 
 
 class TestOpenTask:
-    @given(st.uuids(), st.text(min_size=1), st.text(min_size=1))
-    def test_open_task(self, uuid: UUID, title: str, description: str):
+    @given(st.uuids(), st.text(min_size=1), st.text(min_size=1), any_task)
+    def test_open_task(self, uuid: UUID, title: str, description: str, task: Task):
         task = a_task(title, description, uuid)
         actual = OpenTask(history=History.empty()).execute(task)
 
