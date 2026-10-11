@@ -28,10 +28,6 @@ class TaskOpened:
     title: TaskTitle  | None = None
     description: TaskDescription | None = None
 
-    @classmethod
-    def build(cls, tag: TaskTag) -> "TaskOpened":
-        return cls(tags=(tag,), tag=tag)
-
 @dataclass(frozen=True)
 class Task:
     tag: TaskTag
