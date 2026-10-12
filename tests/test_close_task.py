@@ -19,7 +19,6 @@ class TestCloseTask:
     @given(any_history())
     def test_cannot_close_task_already_closed(self, history: History):
         task = a_task()
-        history = History.build(*history.events, task.as_opened(), task.as_closed())
+        history = History.build(*history.events, task.as_opened()) + task.as_closed()
         assert CloseTask(history).execute(task.tag) == Error(TaskAlreadyClosed(tag=task.tag))
-        # assert CloseTask(history).execute() == Ok(TaskClosed())
 

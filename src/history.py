@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from events import TaskOpened, Event
 
@@ -6,6 +6,9 @@ from events import TaskOpened, Event
 @dataclass(frozen=True)
 class History:
     events: tuple[Event, ...]
+
+    def __add__(self, other: Event) -> "History":
+        return replace(self, events=self.events + (other,))
 
     @classmethod
     def build(cls, *events: Event) -> "History":
