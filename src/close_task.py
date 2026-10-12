@@ -11,5 +11,5 @@ class CloseTask:
 
     def execute(self, tag: TaskTag) -> Result[TaskClosed, TaskNotFound]:
         if len(self._history.events ) == 1:
-            return Ok(TaskClosed())
+            return Ok(TaskClosed(tags=(tag,)))
         return Error(TaskNotFound())
