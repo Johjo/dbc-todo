@@ -11,7 +11,9 @@ class OpenTask:
 
     def execute(self, task: Task) -> Result[TaskOpened, TaskAlreadyOpened]:
         for event in self._history.events:
-            if task.tag in event.tags:
-                return Error(TaskAlreadyOpened(task.tag))
+            match event:
+                case _:
+                    if task.tag in event.tags:
+                        return Error(TaskAlreadyOpened(task.tag))
 
         return Ok(task.as_opened())
