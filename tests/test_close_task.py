@@ -11,6 +11,9 @@ class TaskNotFound:
 
 
 class CloseTask:
+    def __init__(self, history: History):
+        self._history = history
+
     def execute(self) -> Result[None, TaskNotFound]:
         return Error(TaskNotFound())
 
@@ -21,7 +24,7 @@ class TaskClosed:
 
 class TestCloseTask:
     def test_cannot_close_task_which_is_not_open(self):
-        assert CloseTask().execute() == Error(TaskNotFound())
+        assert CloseTask(History.empty()).execute() == Error(TaskNotFound())
 
     def test_can_close_open_task(self):
         task = a_task()
