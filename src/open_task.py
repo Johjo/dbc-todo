@@ -22,9 +22,8 @@ class TaskTitle:
 @dataclass(frozen=True)
 class TaskOpened:
     tags: tuple[TaskTag, ...]
-    tag: TaskTag
     title: TaskTitle
-    description: TaskDescription | None = None
+    description: TaskDescription
 
 
 @dataclass(frozen=True)
@@ -34,7 +33,7 @@ class Task:
     description: TaskDescription
 
     def as_opened(self) -> TaskOpened:
-        return TaskOpened((self.tag,), self.tag, self.title, self.description)
+        return TaskOpened(tags=(self.tag,), title=self.title, description=self.description)
 
 
 @dataclass(frozen=True)
