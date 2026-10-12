@@ -11,3 +11,8 @@ class TaskAlreadyOpened:
 @dataclass(frozen=True)
 class TaskNotFound:
     pass
+
+
+@dataclass(frozen=True)
+class TaskAlreadyClosed:
+    tag: TaskTag

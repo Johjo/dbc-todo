@@ -1,17 +1,9 @@
-from dataclasses import dataclass
-
 from close_task import CloseTask
-from errors import TaskNotFound
+from errors import TaskNotFound, TaskAlreadyClosed
 from events import TaskClosed
 from expression import Error, Ok
 from history import History
 from tests.fixtures import a_task
-from value_objects import TaskTag
-
-
-@dataclass(frozen=True)
-class TaskAlreadyClosed:
-    tag: TaskTag
 
 
 class TestCloseTask:
