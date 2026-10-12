@@ -22,9 +22,9 @@ class TaskTitle:
 @dataclass(frozen=True)
 class TaskOpened:
     tags: tuple[TaskTag, ...]
-    tag: TaskTag
     title: TaskTitle
     description: TaskDescription
+    tag: TaskTag
 
 
 @dataclass(frozen=True)
