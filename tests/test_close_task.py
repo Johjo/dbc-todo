@@ -13,5 +13,5 @@ class TaskNotFound:
 
 class TestCloseTask:
     def test_cannot_close_task_which_is_not_open(self):
-        TaskNotFound()
+        Error(TaskNotFound())
         # assert CloseTask().execute() == Error()
