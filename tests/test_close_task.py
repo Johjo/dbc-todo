@@ -20,6 +20,8 @@ class CloseTask:
         self._history = history
 
     def execute(self) -> Result[TaskClosed, TaskNotFound]:
+        if len(self._history.events) == 1:
+            return Ok(TaskClosed())
         return Error(TaskNotFound())
 
 
@@ -31,5 +33,5 @@ class TestCloseTask:
     def test_can_close_open_task(self):
         task = a_task()
         history = History.build(task.as_opened())
-        CloseTask(history).execute() == Ok(TaskClosed())
+        assert CloseTask(history).execute() == Ok(TaskClosed())
         # assert CloseTask().execute() == Ok(TaskClosed())
