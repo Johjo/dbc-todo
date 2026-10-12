@@ -10,16 +10,18 @@ class TaskNotFound:
     pass
 
 
+@dataclass(frozen=True)
+class TaskClosed:
+    pass
+
+
 class CloseTask:
     def __init__(self, history: History):
         self._history = history
 
-    def execute(self) -> Result[None, TaskNotFound]:
+    def execute(self) -> Result[TaskClosed, TaskNotFound]:
         return Error(TaskNotFound())
 
-@dataclass(frozen=True)
-class TaskClosed:
-    pass
 
 
 class TestCloseTask:
@@ -29,6 +31,5 @@ class TestCloseTask:
     def test_can_close_open_task(self):
         task = a_task()
         history = History.build(task.as_opened())
-        CloseTask(history).execute()
-        Ok(TaskClosed())
+        CloseTask(history).execute() == Ok(TaskClosed())
         # assert CloseTask().execute() == Ok(TaskClosed())
