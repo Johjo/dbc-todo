@@ -1,14 +1,8 @@
 from dataclasses import dataclass
 
+from events import TaskOpened
 from expression import Result, Error, Ok
 from value_objects import TaskTag, TaskDescription, TaskTitle
-
-
-@dataclass(frozen=True)
-class TaskOpened:
-    tags: tuple[TaskTag, ...]
-    title: TaskTitle
-    description: TaskDescription
 
 
 @dataclass(frozen=True)
