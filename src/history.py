@@ -1,14 +1,14 @@
 from dataclasses import dataclass
 
-from events import TaskOpened
+from events import TaskOpened, Event
 
 
 @dataclass(frozen=True)
 class History:
-    events: tuple[TaskOpened, ...]
+    events: tuple[Event, ...]
 
     @classmethod
-    def build(cls, *events: TaskOpened) -> "History":
+    def build(cls, *events: Event) -> "History":
         return cls(events=tuple(events))
 
     @classmethod
