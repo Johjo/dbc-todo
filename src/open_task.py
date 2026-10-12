@@ -15,5 +15,7 @@ class OpenTask:
                 case TaskOpened(tags=tags):
                     if task.tag in tags:
                         return Error(TaskAlreadyOpened(task.tag))
+                case _:
+                    pass
 
         return Ok(task.as_opened())
