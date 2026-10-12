@@ -1,22 +1,7 @@
 from dataclasses import dataclass
-from uuid import UUID
 
 from expression import Result, Error, Ok
-
-
-@dataclass(frozen=True)
-class TaskTag:
-    uuid: UUID
-
-
-@dataclass(frozen=True)
-class TaskDescription:
-    value: str
-
-
-@dataclass(frozen=True)
-class TaskTitle:
-    value: str
+from value_objects import TaskTag, TaskDescription, TaskTitle
 
 
 @dataclass(frozen=True)
