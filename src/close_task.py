@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from expression import Result, Ok, Error
-from open_task import History
+from history import History
 
 
 @dataclass(frozen=True)

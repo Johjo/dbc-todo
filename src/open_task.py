@@ -1,36 +1,8 @@
-from dataclasses import dataclass
-
+from errors import TaskAlreadyOpened
 from events import TaskOpened
 from expression import Result, Error, Ok
-from value_objects import TaskTag, TaskDescription, TaskTitle
-
-
-@dataclass(frozen=True)
-class Task:
-    tag: TaskTag
-    title: TaskTitle
-    description: TaskDescription
-
-    def as_opened(self) -> TaskOpened:
-        return TaskOpened(tags=(self.tag,), title=self.title, description=self.description)
-
-
-@dataclass(frozen=True)
-class TaskAlreadyOpened:
-    tag: TaskTag
-
-
-@dataclass(frozen=True)
-class History:
-    events: tuple[TaskOpened, ...]
-
-    @classmethod
-    def build(cls, *events: TaskOpened) -> "History":
-        return cls(events=tuple(events))
-
-    @classmethod
-    def empty(cls) -> "History":
-        return cls(events=())
+from history import History
+from task import Task
 
 
 class OpenTask:

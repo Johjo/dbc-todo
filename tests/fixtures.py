@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from hypothesis import strategies as st
-from open_task import Task
+from task import Task
 from value_objects import TaskTag, TaskDescription, TaskTitle
 
 UuidOrInt = UUID | int

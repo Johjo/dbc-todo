@@ -1,6 +1,6 @@
 from close_task import TaskNotFound, TaskClosed, CloseTask
 from expression import Error, Ok
-from open_task import History
+from history import History
 from tests.fixtures import a_task
 
 

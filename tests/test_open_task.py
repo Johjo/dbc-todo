@@ -4,7 +4,10 @@ from uuid import UUID
 import hypothesis.strategies as st
 from expression import Ok, Error
 from hypothesis import given
-from open_task import Task, TaskAlreadyOpened, History, OpenTask
+from open_task import OpenTask
+from history import History
+from task import Task
+from errors import TaskAlreadyOpened
 from events import TaskOpened
 from value_objects import TaskTag
 from tests.fixtures import a_task, any_task
