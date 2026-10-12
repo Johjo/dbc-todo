@@ -26,5 +26,4 @@ class TestCloseTask:
     def test_can_close_open_task(self):
         task = a_task()
         history = History.build(task.as_opened())
-        Ok(TaskClosed())
-        # assert CloseTask().execute() == Ok(Task)
+        # assert CloseTask().execute() == Ok(TaskClosed())
