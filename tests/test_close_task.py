@@ -11,9 +11,10 @@ class TestCloseTask:
     def test_cannot_close_task_which_is_not_open(self):
         assert CloseTask(History.empty()).execute(a_task().tag) == Error(TaskNotFound())
 
-    def test_can_close_open_task(self):
+    @given(any_history())
+    def test_can_close_open_task(self, history: History):
         task = a_task()
-        history = History.build(task.as_opened())
+        history = task.as_opened() + history
         assert CloseTask(history).execute(task.tag) == Ok(TaskClosed(tags=(task.tag,)))
 
     @given(any_history())
