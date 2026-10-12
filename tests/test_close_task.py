@@ -8,8 +8,9 @@ from tests.fixtures import a_task, any_history
 
 
 class TestCloseTask:
-    def test_cannot_close_task_which_is_not_open(self):
-        assert CloseTask(History.empty()).execute(a_task().tag) == Error(TaskNotFound())
+    @given(any_history())
+    def test_cannot_close_task_which_is_not_open(self, history: History):
+        assert CloseTask(history).execute(a_task().tag) == Error(TaskNotFound())
 
     @given(any_history())
     def test_can_close_open_task(self, history: History):
