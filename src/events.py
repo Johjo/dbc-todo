@@ -1,10 +1,15 @@
-from dataclasses import dataclass
-
+from dataclasses import dataclass, replace
+from typing import TYPE_CHECKING
 from value_objects import TaskTag, TaskTitle, TaskDescription
+
+
+if TYPE_CHECKING:
+    from history import History
 
 @dataclass(frozen=True)
 class Event:
-    pass
+    def __add__(self, history: "History") -> "History":
+        return replace(history, events=((self,) + history.events))
 
 
 @dataclass(frozen=True)
