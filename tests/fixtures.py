@@ -37,8 +37,8 @@ any_task = st.builds(
     description=task_descriptions,
 )
 
-MAX_TASKS = 10
-MAX_ACTIONS = 10
+MAX_TASKS = 20
+MAX_ACTIONS = 20
 
 CommandResult = Result[TaskOpened, TaskAlreadyOpened] | Result[TaskClosed, TaskNotFound | TaskAlreadyClosed]
 Action = tuple[Callable[[History, int], CommandResult], int]
