@@ -1,57 +1,8 @@
-from dataclasses import dataclass
-from uuid import UUID
-
+from errors import TaskAlreadyOpened
+from events import TaskOpened
 from expression import Result, Error, Ok
-
-
-@dataclass(frozen=True)
-class TaskTag:
-    uuid: UUID
-
-
-@dataclass(frozen=True)
-class TaskDescription:
-    value: str
-
-
-@dataclass(frozen=True)
-class TaskTitle:
-    value: str
-
-
-@dataclass(frozen=True)
-class TaskOpened:
-    tags: tuple[TaskTag, ...]
-    title: TaskTitle
-    description: TaskDescription
-
-
-@dataclass(frozen=True)
-class Task:
-    tag: TaskTag
-    title: TaskTitle
-    description: TaskDescription
-
-    def as_opened(self) -> TaskOpened:
-        return TaskOpened(tags=(self.tag,), title=self.title, description=self.description)
-
-
-@dataclass(frozen=True)
-class TaskAlreadyOpened:
-    tag: TaskTag
-
-
-@dataclass(frozen=True)
-class History:
-    events: tuple[TaskOpened, ...]
-
-    @classmethod
-    def build(cls, *events: TaskOpened) -> "History":
-        return cls(events=tuple(events))
-
-    @classmethod
-    def empty(cls) -> "History":
-        return cls(events=())
+from history import History
+from task import Task
 
 
 class OpenTask:
@@ -60,7 +11,11 @@ class OpenTask:
 
     def execute(self, task: Task) -> Result[TaskOpened, TaskAlreadyOpened]:
         for event in self._history.events:
-            if task.tag in event.tags:
-                return Error(TaskAlreadyOpened(task.tag))
+            match event:
+                case TaskOpened(tags=tags):
+                    if task.tag in tags:
+                        return Error(TaskAlreadyOpened(task.tag))
+                case _:
+                    pass
 
         return Ok(task.as_opened())

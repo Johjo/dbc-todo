@@ -1,7 +1,16 @@
+from collections.abc import Callable, Sequence
 from uuid import UUID
 
+from expression import Result
 from hypothesis import strategies as st
-from open_task import Task, TaskTag, TaskTitle, TaskDescription
+from task import Task
+from value_objects import TaskTag, TaskDescription, TaskTitle
+
+from close_task import CloseTask
+from errors import TaskAlreadyOpened, TaskNotFound, TaskAlreadyClosed
+from events import TaskClosed, TaskOpened
+from history import History
+from open_task import OpenTask
 
 UuidOrInt = UUID | int
 
@@ -27,3 +36,40 @@ any_task = st.builds(
     title=task_titles,
     description=task_descriptions,
 )
+
+MAX_TASKS = 20
+MAX_ACTIONS = 20
+
+CommandResult = Result[TaskOpened, TaskAlreadyOpened] | Result[TaskClosed, TaskNotFound | TaskAlreadyClosed]
+Action = tuple[Callable[[History, int], CommandResult], int]
+
+
+def open_task(history: History, uuid: int) -> CommandResult:
+    return OpenTask(history).execute(a_task(uuid=uuid))
+
+
+def close_task(history: History, uuid: int) -> CommandResult:
+    return CloseTask(history).execute(TaskTag(uuid=to_uuid(uuid)))
+
+
+def play(actions: Sequence[Action]) -> History:
+    history = History.empty()
+    for command, uuid in actions:
+        result = command(history, uuid)
+        match result:
+            case Result(tag="ok", ok=event):
+                history = History.build(*history.events, event)
+            case _:
+                pass
+    return history
+
+
+def any_history(
+    max_tasks: int = MAX_TASKS,
+    max_actions: int = MAX_ACTIONS,
+) -> st.SearchStrategy[History]:
+    return st.lists(
+        st.tuples(st.sampled_from((open_task, close_task)), st.integers(min_value=0, max_value=max_tasks - 1)),
+        min_size=1,
+        max_size=max_actions,
+    ).map(play)
