@@ -1,0 +1,2 @@
+class TestCloseTask:
+    pass
