@@ -16,4 +16,4 @@ class TaskOpened(Event):
 
 @dataclass(frozen=True)
 class TaskClosed(Event):
-    pass
+    tags: tuple[TaskTag, ...] | None = None
