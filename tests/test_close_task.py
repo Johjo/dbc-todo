@@ -6,10 +6,12 @@ from events import TaskClosed
 from expression import Error, Ok
 from history import History
 from tests.fixtures import a_task
+from value_objects import TaskTag
+
 
 @dataclass(frozen=True)
 class TaskAlreadyClosed:
-    pass
+    tag: TaskTag
 
 
 class TestCloseTask:
@@ -24,6 +26,6 @@ class TestCloseTask:
     def test_cannot_close_task_already_closed(self):
         task = a_task()
         history = History.build(task.as_opened())
-        TaskAlreadyClosed()
+        TaskAlreadyClosed(tag=task.tag)
         # assert CloseTask(history).execute() == Ok(TaskClosed())
 
