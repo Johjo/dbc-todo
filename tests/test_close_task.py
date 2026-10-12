@@ -20,7 +20,7 @@ class CloseTask:
         self._history = history
 
     def execute(self) -> Result[TaskClosed, TaskNotFound]:
-        if len(self._history.events) == 1:
+        if len(self._history.events ) == 1:
             return Ok(TaskClosed())
         return Error(TaskNotFound())
 
