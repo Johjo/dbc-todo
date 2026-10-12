@@ -1,17 +1,20 @@
 from dataclasses import dataclass
 
-from expression import Error
+from expression import Error, Result
 
-class CloseTask:
-    def execute(self) -> None:
-        pass
 
 @dataclass(frozen=True)
 class TaskNotFound:
     pass
 
 
+class CloseTask:
+    def execute(self) -> Result[None, TaskNotFound]:
+        return Error(TaskNotFound())
+
+
+
 class TestCloseTask:
     def test_cannot_close_task_which_is_not_open(self):
-        Error(TaskNotFound())
+        assert CloseTask().execute() == Error(TaskNotFound())
         # assert CloseTask().execute() == Error()
