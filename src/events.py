@@ -12,3 +12,8 @@ class TaskOpened(Event):
     tags: tuple[TaskTag, ...]
     title: TaskTitle
     description: TaskDescription
+
+
+@dataclass(frozen=True)
+class TaskClosed(Event):
+    pass

@@ -1,4 +1,6 @@
-from close_task import TaskNotFound, TaskClosed, CloseTask
+from close_task import CloseTask
+from errors import TaskNotFound
+from events import TaskClosed
 from expression import Error, Ok
 from history import History
 from tests.fixtures import a_task

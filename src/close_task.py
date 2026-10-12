@@ -1,18 +1,7 @@
-from dataclasses import dataclass
-
-from events import Event
+from errors import TaskNotFound
+from events import TaskClosed
 from expression import Result, Ok, Error
 from history import History
-
-
-@dataclass(frozen=True)
-class TaskNotFound:
-    pass
-
-
-@dataclass(frozen=True)
-class TaskClosed(Event):
-    pass
 
 
 class CloseTask:
