@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from events import Event
 from expression import Result, Ok, Error
 from history import History
 
@@ -10,7 +11,7 @@ class TaskNotFound:
 
 
 @dataclass(frozen=True)
-class TaskClosed:
+class TaskClosed(Event):
     pass
 
 
