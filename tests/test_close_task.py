@@ -1,6 +1,6 @@
 from close_task import CloseTask
 from errors import TaskNotFound, TaskAlreadyClosed
-from events import TaskClosed
+from events import TaskClosed, TaskReopened
 from expression import Error, Ok
 from history import History
 from hypothesis import given
@@ -23,4 +23,10 @@ class TestCloseTask:
         task = a_task()
         history = task.as_opened() + History.build(*history.events) + task.as_closed()
         assert CloseTask(history).execute(task.tag) == Error(TaskAlreadyClosed(tag=task.tag))
+
+    @given(any_history())
+    def test_can_close_reopened_task(self, history: History):
+        task = a_task()
+        history = task.as_opened() + History.build(*history.events) + task.as_closed() + TaskReopened(tags=(task.tag,))
+        assert CloseTask(history).execute(task.tag) == Ok(TaskClosed(tags=(task.tag,)))
 
