@@ -9,7 +9,7 @@ from tests.fixtures import a_task, any_history
 
 class TestReopenTask:
     @given(any_history())
-    def test_cannot_reopen_task_which_is_not_closed(self, history: History):
+    def test_cannot_reopen_task_which_does_not_exist(self, history: History):
         assert ReopenTask(history).execute(a_task().tag) == Error(TaskNotFound())
 
     @given(any_history())
