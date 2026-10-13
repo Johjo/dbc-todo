@@ -22,3 +22,8 @@ class TaskOpened(Event):
 @dataclass(frozen=True)
 class TaskClosed(Event):
     tags: tuple[TaskTag, ...]
+
+
+@dataclass(frozen=True)
+class TaskReopened(Event):
+    tags: tuple[TaskTag, ...]

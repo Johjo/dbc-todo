@@ -7,10 +7,11 @@ from task import Task
 from value_objects import TaskTag, TaskDescription, TaskTitle
 
 from close_task import CloseTask
-from errors import TaskAlreadyOpened, TaskNotFound, TaskAlreadyClosed
-from events import TaskClosed, TaskOpened
+from errors import TaskAlreadyOpened, TaskAlreadyClosed, TaskNotFound, TaskNotClosed
+from events import TaskClosed, TaskOpened, TaskReopened
 from history import History
 from open_task import OpenTask
+from reopen_task import ReopenTask
 
 UuidOrInt = UUID | int
 
@@ -42,7 +43,11 @@ any_task = st.builds(
 MAX_TASKS = 20
 MAX_ACTIONS = 20
 
-CommandResult = Result[TaskOpened, TaskAlreadyOpened] | Result[TaskClosed, TaskNotFound | TaskAlreadyClosed]
+CommandResult = (
+    Result[TaskOpened, TaskAlreadyOpened]
+    | Result[TaskClosed, TaskNotFound | TaskAlreadyClosed]
+    | Result[TaskReopened, TaskNotFound | TaskNotClosed]
+)
 Action = tuple[Callable[[History, int], CommandResult], int]
 
 
@@ -52,6 +57,10 @@ def open_task(history: History, uuid: int) -> CommandResult:
 
 def close_task(history: History, uuid: int) -> CommandResult:
     return CloseTask(history).execute(TaskTag(uuid=to_uuid(uuid)))
+
+
+def reopen_task(history: History, uuid: int) -> CommandResult:
+    return ReopenTask(history).execute(TaskTag(uuid=to_uuid(uuid)))
 
 
 def play(actions: Sequence[Action]) -> History:
@@ -71,7 +80,7 @@ def any_history(
     max_actions: int = MAX_ACTIONS,
 ) -> st.SearchStrategy[History]:
     return st.lists(
-        st.tuples(st.sampled_from((open_task, close_task)), st.integers(min_value=0, max_value=max_tasks - 1)),
+        st.tuples(st.sampled_from((open_task, close_task, reopen_task)), st.integers(min_value=0, max_value=max_tasks - 1)),
         min_size=1,
         max_size=max_actions,
     ).map(play)
