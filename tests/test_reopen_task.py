@@ -19,6 +19,13 @@ class TestReopenTask:
         assert ReopenTask(history).execute(task.tag) == Ok(TaskReopened(tags=(task.tag,)))
 
     @given(any_history())
+    def test_can_reopen_many_time(self, history: History):
+        task = a_task()
+        task.as_reopened()
+        history = task.as_opened() + History.build(*history.events) + task.as_closed()
+        assert ReopenTask(history).execute(task.tag) == Ok(TaskReopened(tags=(task.tag,)))
+
+    @given(any_history())
     def test_cannot_reopen_task_which_is_open(self, history: History):
         task = a_task()
         history = task.as_opened() + history

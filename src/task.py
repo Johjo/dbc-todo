@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from events import TaskOpened, TaskClosed
+from events import TaskOpened, TaskClosed, TaskReopened
 from value_objects import TaskTag, TaskTitle, TaskDescription
 
 
@@ -15,3 +15,6 @@ class Task:
 
     def as_closed(self) -> TaskClosed:
         return TaskClosed(tags=(self.tag,))
+
+    def as_reopened(self) -> TaskReopened:
+        return TaskReopened(tags=(self.tag,))
