@@ -40,8 +40,8 @@ any_task = st.builds(
     description=task_descriptions,
 )
 
-MAX_TASKS = 20
-MAX_ACTIONS = 20
+MAX_TASKS = 10
+MAX_ACTIONS = 30
 
 CommandResult = (
     Result[TaskOpened, TaskAlreadyOpened]
