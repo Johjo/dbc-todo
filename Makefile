@@ -20,3 +20,6 @@ green: # run green git gamble command
 
 red: # run red git gamble command 
 	git-gamble --red -m "red" -- make check
+
+coverage:
+	uv run pytest --cov --cov-branch --cov-report=term-missing:skip-covered
