@@ -25,6 +25,8 @@ def to_uuid(uuid: UUID | int) -> UUID:
             return uuid
         case int():
             return UUID(int=uuid)
+        case _: # pragma: no cover
+            pass
 
 
 task_tags = st.builds(TaskTag, uuid=st.uuids())
