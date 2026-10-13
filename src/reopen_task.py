@@ -17,6 +17,9 @@ class ReopenTask:
                 case TaskOpened(tags=tags) if tag in tags:
                     found = True
                     closed = False
+                case TaskReopened(tags=tags) if tag in tags:
+                    found = True
+                    closed = False
                 case TaskClosed(tags=tags) if tag in tags:
                     found = True
                     closed = True
