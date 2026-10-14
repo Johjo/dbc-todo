@@ -7,3 +7,8 @@ from value_objects import TaskTag
 @dataclass(frozen=True)
 class OpenTaskCommand:
     task: Task
+
+
+@dataclass(frozen=True)
+class CloseTaskCommand:
+    tag: TaskTag
