@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Any
 
 from value_objects import TaskTag
 
@@ -21,3 +22,8 @@ class TaskAlreadyClosed:
 @dataclass(frozen=True)
 class TaskNotClosed:
     tag: TaskTag
+
+
+@dataclass(frozen=True)
+class HandlerNotFound:
+    command: Any
