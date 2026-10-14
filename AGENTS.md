@@ -5,13 +5,14 @@
 - Ne jamais rollback (reset, revert, amend) : c'est l'humain qui décide.
 
 ## Workflow de développement (git-gamble / TDD)
-Une seule étape à la fois, validée avant de passer à la suivante :
-
-1. Proposer l'étape et attendre la validation de l'humain.
-2. Écrire UN SEUL test (rouge). L'humain valide avec `make red`.
-3. Faire passer le test. L'agent valide avec `make green`.
-4. Discuter du résultat avant l'étape suivante.
+- Maintenir une todo list pour que l'humain suive l'avancement.
+- Une modification à la fois, chacune validée par un pari git-gamble :
+  1. Écrire le test (rouge) : `make red MESSAGE="..."`.
+  2. Faire passer le test : `make green MESSAGE="..."`.
+- Après chaque modification, discuter du résultat avant la suivante.
+- En cas de doute, poser une question plutôt que deviner.
 
 ## Conventions du dépôt
-- Fichiers en CRLF.
-- Un commit par fonctionnalité, message au format `feat: #N ...` / `test: #N ...`.
+- Fichiers en LF (garanti par .gitattributes).
+- Un commit par modification, message au format `feat: ...` / `test: ...` / `chore: ...`.
+- Les erreurs métier sont des dataclasses retournées dans un `Result`, jamais d'exception.
