@@ -12,3 +12,8 @@ class OpenTaskCommand:
 @dataclass(frozen=True)
 class CloseTaskCommand:
     tag: TaskTag
+
+
+@dataclass(frozen=True)
+class ReopenTaskCommand:
+    tag: TaskTag
